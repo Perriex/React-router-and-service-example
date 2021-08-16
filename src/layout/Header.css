@@ -1,0 +1,8 @@
+.header-wrapper {
+  display: flex;
+}
+.header-wrapper ul {
+  list-style-type: none;
+  display: flex;
+  gap: 10px;
+}
