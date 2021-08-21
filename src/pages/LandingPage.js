@@ -1,8 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import { Button, Paper, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+  card: {
+    borderRadius: "5px",
+    margin: "10px",
+  },
+}));
 
 const LandingPage = () => {
   const [data, setData] = useState();
   const [id, setId] = useState();
+  const classes = useStyles();
   useEffect(() => {
     fetch(
       "https://random-data-api.com/api/lorem_ipsum/random_lorem_ipsum?size=20"
@@ -12,25 +27,23 @@ const LandingPage = () => {
     if (id) {
       let temp = data.filter((item) => item.id !== id);
       setData(temp);
-      console.log(id);
     }
   }, [id]);
   return (
     <div className="landing-wrapper">
       {data ? (
         data.map((item, index) => (
-          <>
-            <p
-              style={{
-                border: "1px solid #f1f1f1",
-                margin: "10px",
-                padding: "10px",
-              }}
-            >
+          <Paper className={classes.card}>
+            <Typography variant="p">
               {index + 1 + " - " + item["very_long_sentence"]}
-              <button onClick={(e) => setId(item["id"])}>delete</button>
-            </p>
-          </>
+              <Button color="primary" onClick={(e) => setId(item["id"])}>
+                delete
+              </Button>
+              <Link to={`/detail/${item.id}`}>
+                <Button color="primary">detail</Button>
+              </Link>
+            </Typography>
+          </Paper>
         ))
       ) : (
         <p>loading</p>
